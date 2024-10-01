@@ -586,6 +586,7 @@ export interface ApiBusinessBusiness extends Struct.CollectionTypeSchema {
     singularName: 'business';
     pluralName: 'businesses';
     displayName: 'Business';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -626,11 +627,28 @@ export interface ApiBusinessBusiness extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
-    cvu: Schema.Attribute.BigInteger &
+    phone: Schema.Attribute.BigInteger &
+      Schema.Attribute.Unique &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
+      }>;
+    schedule: Schema.Attribute.Text &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    cvu: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Schema.Attribute.SetMinMaxLength<{
+        minLength: 22;
+        maxLength: 22;
       }>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;

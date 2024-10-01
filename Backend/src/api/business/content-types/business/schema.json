@@ -4,7 +4,8 @@
   "info": {
     "singularName": "business",
     "pluralName": "businesses",
-    "displayName": "Business"
+    "displayName": "Business",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -48,19 +49,37 @@
       "type": "email"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
       ],
-      "type": "media",
-      "multiple": false,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
+    },
+    "phone": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "biginteger",
+      "unique": true
+    },
+    "schedule": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "text"
     },
     "cvu": {
       "pluginOptions": {
@@ -68,7 +87,10 @@
           "localized": true
         }
       },
-      "type": "biginteger"
+      "type": "string",
+      "minLength": 22,
+      "maxLength": 22,
+      "regex": "\\d{22}"
     }
   }
 }
