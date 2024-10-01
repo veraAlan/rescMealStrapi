@@ -91,6 +91,12 @@
       "minLength": 22,
       "maxLength": 22,
       "regex": "\\d{22}"
+    },
+    "foods": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::food.food",
+      "mappedBy": "business"
     }
   }
 }

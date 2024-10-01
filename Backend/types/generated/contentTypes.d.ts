@@ -650,6 +650,7 @@ export interface ApiBusinessBusiness extends Struct.CollectionTypeSchema {
         minLength: 22;
         maxLength: 22;
       }>;
+    foods: Schema.Attribute.Relation<'oneToMany', 'api::food.food'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -693,6 +694,41 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::category.category'
     >;
+  };
+}
+
+export interface ApiFoodFood extends Struct.CollectionTypeSchema {
+  collectionName: 'foods';
+  info: {
+    singularName: 'food';
+    pluralName: 'foods';
+    displayName: 'Food';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Name: Schema.Attribute.String;
+    Category: Schema.Attribute.String;
+    Price: Schema.Attribute.Decimal;
+    Image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    Description: Schema.Attribute.Text;
+    Quantity: Schema.Attribute.Integer;
+    Expiration_date: Schema.Attribute.Date;
+    Production_date: Schema.Attribute.Date;
+    business: Schema.Attribute.Relation<'manyToOne', 'api::business.business'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::food.food'>;
   };
 }
 
@@ -1104,6 +1140,7 @@ declare module '@strapi/strapi' {
       'api::author.author': ApiAuthorAuthor;
       'api::business.business': ApiBusinessBusiness;
       'api::category.category': ApiCategoryCategory;
+      'api::food.food': ApiFoodFood;
       'api::global.global': ApiGlobalGlobal;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
