@@ -651,16 +651,6 @@ export interface ApiBusinessBusiness extends Struct.CollectionTypeSchema {
         maxLength: 22;
       }>;
     foods: Schema.Attribute.Relation<'oneToMany', 'api::food.food'>;
-    password: Schema.Attribute.Password &
-      Schema.Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }> &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 4;
-        maxLength: 22;
-      }>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -704,43 +694,6 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::category.category'
     >;
-  };
-}
-
-export interface ApiClientClient extends Struct.CollectionTypeSchema {
-  collectionName: 'clients';
-  info: {
-    singularName: 'client';
-    pluralName: 'clients';
-    displayName: 'Client';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    name: Schema.Attribute.String;
-    last_name: Schema.Attribute.String;
-    email: Schema.Attribute.Email &
-      Schema.Attribute.Required &
-      Schema.Attribute.Unique;
-    phone: Schema.Attribute.BigInteger;
-    password: Schema.Attribute.Password &
-      Schema.Attribute.Required &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 5;
-        maxLength: 22;
-      }>;
-    address: Schema.Attribute.Text;
-    birthdate: Schema.Attribute.Date;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::client.client'>;
   };
 }
 
@@ -1187,7 +1140,6 @@ declare module '@strapi/strapi' {
       'api::author.author': ApiAuthorAuthor;
       'api::business.business': ApiBusinessBusiness;
       'api::category.category': ApiCategoryCategory;
-      'api::client.client': ApiClientClient;
       'api::food.food': ApiFoodFood;
       'api::global.global': ApiGlobalGlobal;
       'admin::permission': AdminPermission;
