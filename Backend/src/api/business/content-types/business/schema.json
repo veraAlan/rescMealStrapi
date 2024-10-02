@@ -97,6 +97,16 @@
       "relation": "oneToMany",
       "target": "api::food.food",
       "mappedBy": "business"
+    },
+    "password": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "password",
+      "maxLength": 22,
+      "minLength": 4
     }
   }
 }
