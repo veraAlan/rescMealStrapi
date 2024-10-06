@@ -703,6 +703,7 @@ export interface ApiClientClient extends Struct.CollectionTypeSchema {
     singularName: 'client';
     pluralName: 'clients';
     displayName: 'Client';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -742,14 +743,10 @@ export interface ApiClientClient extends Struct.CollectionTypeSchema {
     password: Schema.Attribute.Password &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
-          localized: true;
+          localized: false;
         };
-      }> &
-      Schema.Attribute.SetMinMaxLength<{
-        minLength: 4;
-        maxLength: 22;
       }>;
-    addresss: Schema.Attribute.Text &
+    address: Schema.Attribute.Text &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;

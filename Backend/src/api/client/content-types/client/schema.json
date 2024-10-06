@@ -4,7 +4,8 @@
   "info": {
     "singularName": "client",
     "pluralName": "clients",
-    "displayName": "Client"
+    "displayName": "Client",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -52,14 +53,12 @@
     "password": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
-      "type": "password",
-      "maxLength": 22,
-      "minLength": 4
+      "type": "password"
     },
-    "addresss": {
+    "address": {
       "pluginOptions": {
         "i18n": {
           "localized": true
