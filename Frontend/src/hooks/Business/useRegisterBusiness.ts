@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Business } from '../../types/Business';
+import axios from 'axios';
 
 export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
     const [formData, setFormData] = useState<Business>({
-        name: '',
+        username: '',
+        password: '',
         type: '',
         address: '',
         email: '',
-        password: '',
-        phone: BigInt(0),
+        phone: '',
         schedule: '',
         cvu: '',
         image: null
@@ -28,55 +29,59 @@ export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const business: any = {};
-        for (const key in formData) {
-            const value = formData[key as keyof Business];
-            if (value !== null && value !== undefined) {
-                business[key] = value;
-            }
+        let business = {
+            type: formData.type,
+            address: formData.address,
+            phone: formData.phone,
+            schedule: formData.schedule,
+            cvu: formData.cvu,
+            image: ''
         }
 
-        try {
-            let imageUrl = null;
-            if (formData.image) {
-                const imageData = new FormData();
-                imageData.append('files', formData.image);
-                const imageResponse = await fetch('http://localhost:1337/api/upload', {
-                    method: 'POST',
-                    body: imageData,
-                });
-                const imageResult = await imageResponse.json();
-                if (imageResponse.ok && imageResult.length > 0) {
-                    imageUrl = imageResult[0].id;
-                } else {
-                    console.error('Error uploading image:', imageResult);
-                    return;
-                }
-            }
+        let userID = 0;
 
-            if (imageUrl) {
-                business['image'] = imageUrl;
-            }
+        const response = await axios.post('http://localhost:1337/api/auth/local/register', {
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+        }).then((response) => {
+            localStorage.setItem('token', response.data.jwt)
+            userID = response.data.user.id
+        }).catch(error => console.error('Error al registrar el usuario: ', error.message));
 
-            const payload = { data: business };
-
-            const response = await fetch('http://localhost:1337/api/businesses', {
-                method: 'POST',
+        if (formData.image) {
+            const imageData = new FormData();
+            imageData.append('files', formData.image);
+            const response = await axios.post('http://localhost:1337/api/upload', {
+                files: formData.image
+            }, {
                 headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                onSubmit(result.data);
-            } else {
-                console.error(result);
-            }
-        } catch (error) {
-            console.error('Error al registrar la comida:', error);
+                    "Content-Type": "multipart/form-data",
+                    Authorization: "Bearer " + localStorage.getItem('token')
+                }
+            }).then((responseImage) => {
+                if (responseImage.status == 201) {
+                    console.log('Response Image: ', responseImage.data);
+                    business.image = responseImage.data[0].id
+                } else {
+                    console.error(responseImage);
+                }
+            }).catch((error) => console.error('Error uploading image:', error));
         }
+
+        const responseBusiness = await axios.post('http://localhost:1337/api/businesses',
+            { data: business }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }
+        ).then((responseBusiness) => {
+            if (responseBusiness.status == 201) {
+                axios.put('http://localhost:1337/api/users/' + userID, {
+                    role: 16,
+                    client: responseBusiness.data.id
+                }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+                onSubmit(responseBusiness.data);
+            } else {
+                console.error(responseBusiness);
+            }
+        }).catch(error => console.error('Error al registrar el cliente', error));
     };
 
     return { formData, handleChange, handleSubmit, handleFileChange };

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Client } from "../../types/Client";
 import axios from "axios";
 
-export const useRegisterClient = (onsubmit: (client: Client) => void) => {
+export const useRegisterClient = (onSubmit: (client: Client) => void) => {
     const [formData, setFormData] = useState<Client>({
         username: '',
         last_name: '',
@@ -42,12 +42,12 @@ export const useRegisterClient = (onsubmit: (client: Client) => void) => {
         const responseClient = await axios.post('http://localhost:1337/api/clients',
             { data: client }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }
         ).then((responseClient) => {
-            if (responseClient.status) {
+            if (responseClient.status == 200) {
                 axios.put('http://localhost:1337/api/users/' + userID, {
                     role: 15,
                     client: responseClient.data.data.id
                 }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
-                onsubmit(responseClient.data.data);
+                onSubmit(responseClient.data.data);
             } else {
                 console.error(responseClient);
             }

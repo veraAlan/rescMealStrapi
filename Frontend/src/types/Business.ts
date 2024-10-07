@@ -1,12 +1,12 @@
 export interface Business {
     id?: number;
     image: File | null;
-    name: string;
+    username: string;
     type: string;
     address: string;
     email: string;
     password: string;
-    phone: BigInt;
+    phone: string;
     schedule: string;
     cvu: string;
 }
