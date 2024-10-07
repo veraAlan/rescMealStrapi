@@ -8,7 +8,9 @@ const useFoods = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:1337/api/foods?populate=*');
+                const response = await fetch('http://localhost:1337/api/foods?populate=*', {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                });
                 if (!response.ok) {
                     throw new Error('Failed to fetch');
                 }
@@ -41,7 +43,7 @@ const useFoods = () => {
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setError('Failed to load data');
+                setError('Please register or log in.');
             }
         };
 

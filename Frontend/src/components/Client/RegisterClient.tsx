@@ -7,19 +7,19 @@ interface ClientFormProps {
 }
 
 const RegisterClient: React.FC<ClientFormProps> = ({ onSubmit }) => {
-        const {formData, handleChange, handleSubmit} = useRegisterClient(onSubmit);
+    const { formData, handleChange, handleSubmit } = useRegisterClient(onSubmit);
 
-        return (
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 border border-gray-300 rounded">
+    return (
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 border border-gray-300 rounded">
             <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                     Nombre
                 </label>
                 <input
-                    id="name"
-                    name="name"
+                    id="username"
+                    name="username"
                     type="text"
-                    value={formData.name}
+                    value={formData.username}
                     onChange={handleChange}
                     required
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -123,7 +123,7 @@ const RegisterClient: React.FC<ClientFormProps> = ({ onSubmit }) => {
                 Registrar
             </button>
         </form>
-        );
-    };
+    );
+};
 
 export default RegisterClient;

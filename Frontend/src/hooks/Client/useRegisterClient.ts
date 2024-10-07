@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Client } from "../../types/Client";
+import axios from "axios";
 
 export const useRegisterClient = (onsubmit: (client: Client) => void) => {
     const [formData, setFormData] = useState<Client>({
-        name: '',
+        username: '',
         last_name: '',
         email: '',
         password: '',
@@ -14,44 +15,46 @@ export const useRegisterClient = (onsubmit: (client: Client) => void) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData({...formData, [name]: value });
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const client: any = {};
-        for(const key in formData){
-            const value = formData[key as keyof Client];
-
-            if(value !== null && value !== undefined){
-                client[key] = value;
-            }
+        const client = {
+            last_name: formData.last_name,
+            phone: formData.phone,
+            address: formData.address,
+            birthdate: formData.birthdate,
         }
 
-        try{
-            const payload = {data: client}
+        let userID = 0;
 
-            const response = await fetch('http://localhost:1337/api/clients', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
+        const response = await axios.post('http://localhost:1337/api/auth/local/register', {
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+        }).then((response) => {
+            localStorage.setItem('token', response.data.jwt)
+            userID = response.data.user.id
+        }).catch(error => console.error('Error al registrar el usuario: ', error.message));
 
-            const result = await response.json();
-            if(response.ok){
-                onsubmit(result.data);
+        const responseClient = await axios.post('http://localhost:1337/api/clients',
+            { data: client }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }
+        ).then((responseClient) => {
+            if (responseClient.status) {
+                axios.put('http://localhost:1337/api/users/' + userID, {
+                    role: 15,
+                    client: responseClient.data.data.id
+                }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+                onsubmit(responseClient.data.data);
             } else {
-                console.error(result);
+                console.error(responseClient);
             }
-        } catch (error) {
-            console.error('Error al registrar el cliente', error);
-        }
+        }).catch(error => console.error('Error al registrar el cliente', error));
     };
 
-    return {formData, handleChange, handleSubmit};
+    return { formData, handleChange, handleSubmit };
 };
 
 export default useRegisterClient;

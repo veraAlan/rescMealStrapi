@@ -1,6 +1,6 @@
-export interface Client{
+export interface Client {
     id?: number;
-    name: string;
+    username: string;
     last_name: string;
     email: string;
     password: string;

@@ -16,14 +16,6 @@
     }
   },
   "attributes": {
-    "name": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "string"
-    },
     "type": {
       "pluginOptions": {
         "i18n": {
@@ -39,14 +31,6 @@
         }
       },
       "type": "string"
-    },
-    "email": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "email"
     },
     "image": {
       "type": "media",
@@ -97,6 +81,12 @@
       "relation": "oneToMany",
       "target": "api::food.food",
       "mappedBy": "business"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "business"
     }
   }
 }

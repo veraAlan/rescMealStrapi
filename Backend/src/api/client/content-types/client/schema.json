@@ -16,14 +16,6 @@
     }
   },
   "attributes": {
-    "name": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "string"
-    },
     "last_name": {
       "pluginOptions": {
         "i18n": {
@@ -31,16 +23,6 @@
         }
       },
       "type": "string"
-    },
-    "email": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "email",
-      "unique": true,
-      "required": true
     },
     "phone": {
       "pluginOptions": {
@@ -73,6 +55,12 @@
         }
       },
       "type": "date"
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "client"
     }
   }
 }
