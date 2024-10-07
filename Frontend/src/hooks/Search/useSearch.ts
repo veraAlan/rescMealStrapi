@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Food } from '../types/Food';
+import { Food } from '../../types/Food';
 
 const useSearch = (foods: Food[]) => {
     const [filteredFoods, setFilteredFoods] = useState<Food[]>(foods);

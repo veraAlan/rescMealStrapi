@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Food } from '../types/Food';
+import { Food } from '../../types/Food';
 
 const useFoods = () => {
     const [foods, setFoods] = useState<Food[]>([]);

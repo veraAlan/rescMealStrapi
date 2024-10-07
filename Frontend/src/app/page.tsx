@@ -1,8 +1,8 @@
 "use client";
 
 import React from 'react';
-import useFoods from '../hooks/useFoods';
-import useSearch from '../hooks/useSearch';
+import useFoods from '../hooks/Food/useFoods';
+import useSearch from '../hooks/Search/useSearch';
 import FoodCard from '../components/Food/FoodCard';
 import Search from '../components/Search/Search';
 

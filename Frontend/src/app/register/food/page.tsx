@@ -2,7 +2,7 @@
 
 import React from 'react';
 import FoodForm from '../../../components/Food/FoodForm';
-import { FoodData } from '../../../hooks/useRegisterFood';
+import { FoodData } from '../../../hooks/Food/useRegisterFood';
 
 const RegisterFoodPage: React.FC = () => {
     const handleFoodSubmit = (foodData: FoodData) => {

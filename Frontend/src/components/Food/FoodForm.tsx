@@ -1,5 +1,5 @@
 import React from 'react';
-import useRegisterFood, { FoodData } from '../../hooks/useRegisterFood';
+import useRegisterFood, { FoodData } from '../../hooks/Food/useRegisterFood';
 
 interface FoodFormProps {
     onSubmit: (foodData: FoodData) => void;
