@@ -40,14 +40,6 @@
       },
       "type": "string"
     },
-    "email": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "email"
-    },
     "image": {
       "type": "media",
       "multiple": false,

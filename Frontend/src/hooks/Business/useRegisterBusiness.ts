@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Business } from '../../types/Business';
 import axios from 'axios';
+import { redirect } from 'next/navigation';
 
 export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
+    const [status, setStatus] = useState(0)
     const [formData, setFormData] = useState<Business>({
         username: '',
         password: '',
@@ -30,6 +32,7 @@ export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
         e.preventDefault();
 
         let business = {
+            name: formData.username,
             type: formData.type,
             address: formData.address,
             phone: formData.phone,
@@ -73,16 +76,22 @@ export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
             { data: business }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }
         ).then((responseBusiness) => {
             if (responseBusiness.status == 201) {
+                console.log(responseBusiness.data)
                 axios.put('http://localhost:1337/api/users/' + userID, {
                     role: 16,
-                    client: responseBusiness.data.id
+                    business: responseBusiness.data.data.id
                 }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
                 onSubmit(responseBusiness.data);
+                setStatus(responseBusiness.status)
             } else {
                 console.error(responseBusiness);
             }
-        }).catch(error => console.error('Error al registrar el cliente', error));
+        }).catch(error => console.error('Error al registrar el local', error));
     };
+
+    if (status == 201) {
+        redirect('/')
+    }
 
     return { formData, handleChange, handleSubmit, handleFileChange };
 };

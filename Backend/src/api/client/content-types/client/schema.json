@@ -16,14 +16,6 @@
     }
   },
   "attributes": {
-    "name": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "string"
-    },
     "last_name": {
       "pluginOptions": {
         "i18n": {
@@ -32,16 +24,6 @@
       },
       "type": "string"
     },
-    "email": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      },
-      "type": "email",
-      "unique": true,
-      "required": true
-    },
     "phone": {
       "pluginOptions": {
         "i18n": {
@@ -49,14 +31,6 @@
         }
       },
       "type": "biginteger"
-    },
-    "password": {
-      "pluginOptions": {
-        "i18n": {
-          "localized": false
-        }
-      },
-      "type": "password"
     },
     "address": {
       "pluginOptions": {
