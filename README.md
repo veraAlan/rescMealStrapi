@@ -11,6 +11,7 @@ Este proyecto demuestra el uso de Strapi + Next.js. Este proyecto fue hecho para
 
 - [Node.js](https://nodejs.org/)
 - [npm](https://www.npmjs.com)
+- [MySQL](https://www.mysql.com)
 - [Strapi](https://strapi.io)
 - [Next.js](https://nextjs.org)
 
@@ -42,7 +43,13 @@ cd Backend
 npm install o npm i
 ```
 
-5. En el archivo .env.example, dentro de la carpeta Backend, primero cambian el nombre a .env y agregan la configurar de la conexión a la base de datos:
+5. En el archivo .env.example, dentro de la carpeta Backend, primero cambian el nombre a .env y agregan la configuración de la conexión a la base de datos:
+
+**Nota:** Debe tener creada la base de datos previamente en MySQL sin tablas. Antes de ejecutar Strapi. Con el comando:
+
+```
+CREATE DATABASE rescmealstrapi;
+```
 
 ```
 # Server
