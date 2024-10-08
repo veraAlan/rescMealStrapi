@@ -25,6 +25,11 @@ const Header: React.FC = () => {
                                 Cerrar Sesión
                             </button>
                         </Link>
+                        <Link href="/register/food">
+                            <button className="bg-green-500 text-white font-bold py-2 px-4 rounded">
+                                Registrar Comida
+                            </button>
+                        </Link>
                     </div>) : (<div className="flex space-x-4">
                         <Link href="/login">
                             <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded">
@@ -34,11 +39,6 @@ const Header: React.FC = () => {
                         <Link href="/register">
                             <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded">
                                 Registrarse
-                            </button>
-                        </Link>
-                        <Link href="/register/food">
-                            <button className="bg-green-500 text-white font-bold py-2 px-4 rounded">
-                                Registrar Comida
                             </button>
                         </Link>
                     </div>)}
