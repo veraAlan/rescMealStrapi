@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLogin } from '../../hooks/Login/useLogin';
 import { UserLogin } from "@/types/UserLogin";
 
@@ -6,8 +6,8 @@ interface ClientFormProps {
     onSubmit: (client: UserLogin) => void;
 }
 
-const RegisterClient: React.FC<ClientFormProps> = ({ onSubmit }) => {
-    const { formData, handleChange, handleSubmit } = useLogin(onSubmit);
+const LoginClient: React.FC<ClientFormProps> = ({ onSubmit }) => {
+    const { formData, handleChange, handleSubmit, error } = useLogin(onSubmit)
 
     return (
         <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 border border-gray-300 rounded">
@@ -41,6 +41,8 @@ const RegisterClient: React.FC<ClientFormProps> = ({ onSubmit }) => {
                 />
             </div>
 
+            {error && (<p className="text-center text-red-500">Usuario o Contraseña incorrecta.</p>)}
+
             <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -51,4 +53,4 @@ const RegisterClient: React.FC<ClientFormProps> = ({ onSubmit }) => {
     );
 };
 
-export default RegisterClient;
+export default LoginClient;

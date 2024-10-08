@@ -1,25 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
+import { AuthContext } from '@/context/AuthContext';
 
 const Header: React.FC = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const authContext = useContext(AuthContext)
 
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, []);
+    if (!authContext) {
+        return null;
+    }
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-    };
+    const { isLoggedIn, logout } = authContext
 
     return (
         <header className="bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4 shadow-lg">
@@ -27,14 +20,12 @@ const Header: React.FC = () => {
                 <Logo />
                 {isLoggedIn ?
                     (<div className="flex space-x-4">
-                        <Link href="#">
-                            <button onClick={handleLogout} className="bg-white text-blue-500 font-bold py-2 px-4 rounded">
+                        <Link href="/login">
+                            <button onClick={logout} className="bg-white text-blue-500 font-bold py-2 px-4 rounded">
                                 Cerrar Sesión
                             </button>
                         </Link>
-                    </div>)
-                    :
-                    (<div className="flex space-x-4">
+                    </div>) : (<div className="flex space-x-4">
                         <Link href="/login">
                             <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded">
                                 Iniciar Sesión
@@ -50,8 +41,7 @@ const Header: React.FC = () => {
                                 Registrar Comida
                             </button>
                         </Link>
-                    </div>)
-                }
+                    </div>)}
             </div>
         </header>
     );

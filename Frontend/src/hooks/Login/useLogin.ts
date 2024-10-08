@@ -1,8 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { UserLogin } from "../../types/UserLogin";
 import axios from "axios";
+import { AuthContext } from "@/context/AuthContext";
+import { redirect } from "next/navigation";
 
-export const useLogin = (onsubmit: (client: UserLogin) => void) => {
+export const useLogin = (onSubmit: (client: UserLogin) => void) => {
+   const [status, setStatus] = useState(0)
+   const [error, setError] = useState(false)
+   const authContext = useContext(AuthContext)
+
    const [formData, setFormData] = useState<UserLogin>({
       identifier: '',
       password: '',
@@ -20,11 +26,20 @@ export const useLogin = (onsubmit: (client: UserLogin) => void) => {
          identifier: formData.identifier,
          password: formData.password,
       }).then((response) => {
-         localStorage.setItem('token', response.data.jwt)
-      }).catch(error => console.error('Error al iniciar sesion: ', error.message));
+         if (!authContext) {
+            return null;
+         }
+         const { login } = authContext
+
+         login(response.data.jwt)
+         setStatus(response.status)
+      }).catch(error => setError(true))
    };
 
-   return { formData, handleChange, handleSubmit };
+   if (status == 200) {
+      redirect('/')
+   }
+   return { formData, handleChange, handleSubmit, error };
 };
 
 export default useLogin;

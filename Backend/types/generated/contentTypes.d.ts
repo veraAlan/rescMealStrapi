@@ -531,6 +531,12 @@ export interface ApiBusinessBusiness extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
+    name: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     type: Schema.Attribute.String &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -538,6 +544,12 @@ export interface ApiBusinessBusiness extends Struct.CollectionTypeSchema {
         };
       }>;
     address: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    email: Schema.Attribute.Email &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -573,7 +585,7 @@ export interface ApiBusinessBusiness extends Struct.CollectionTypeSchema {
         maxLength: 22;
       }>;
     foods: Schema.Attribute.Relation<'oneToMany', 'api::food.food'>;
-    users_permissions_user: Schema.Attribute.Relation<
+    user: Schema.Attribute.Relation<
       'oneToOne',
       'plugin::users-permissions.user'
     >;
@@ -609,7 +621,21 @@ export interface ApiClientClient extends Struct.CollectionTypeSchema {
     };
   };
   attributes: {
+    name: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     last_name: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    email: Schema.Attribute.Email &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: true;

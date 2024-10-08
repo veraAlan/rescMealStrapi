@@ -42,7 +42,7 @@ export const useRegisterClient = (onSubmit: (client: Client) => void) => {
         const responseClient = await axios.post('http://localhost:1337/api/clients',
             { data: client }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }
         ).then((responseClient) => {
-            if (responseClient.status == 200) {
+            if (responseClient.status == 201) {
                 axios.put('http://localhost:1337/api/users/' + userID, {
                     role: 15,
                     client: responseClient.data.data.id
