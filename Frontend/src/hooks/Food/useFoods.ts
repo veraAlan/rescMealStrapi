@@ -34,7 +34,6 @@ const useFoods = () => {
                             expiration_date: attributes.Expiration_date,
                             production_date: attributes.Production_date,
                             business: {
-                                id: business.id,
                                 name: business.name,
                             },
                         };
