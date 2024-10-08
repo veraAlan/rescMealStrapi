@@ -14,6 +14,8 @@ Este proyecto demuestra el uso de Strapi + Next.js. Este proyecto fue hecho para
 - [Strapi](https://strapi.io)
 - [Next.js](https://nextjs.org)
 
+**Nota:** Las versiones que soporta Strapi son la v18 y v20. Las versiones como la v19, v21 no son compatibles con Strapi.
+
 ## Instrucciones de uso
 
 1. Clonar el repositorio en tu directorio referido:
@@ -61,6 +63,12 @@ DATABASE_USERNAME=USER
 DATABASE_PASSWORD=PASSWORD
 DATABASE_SSL=false
 DATABASE_FILENAME=
+```
+
+6. Debe hace un import de los datos de la base de datos. Posicioneas en la carpeta Backend:
+
+```
+npx strapi export -f database\migrations\export-database.tar.gz.enc -k 123456789
 ```
 
 7. Listo una vez instalo las deperendecia y configurada la base de datos. Inicializa el proyecto de Strapi con el comando:
