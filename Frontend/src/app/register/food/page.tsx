@@ -6,7 +6,6 @@ import { FoodData } from '../../../hooks/Food/useRegisterFood';
 
 const RegisterFoodPage: React.FC = () => {
     const handleFoodSubmit = (foodData: FoodData) => {
-        console.log('Comida registrada con éxito:', foodData);
         // Aquí puedes manejar la lógica después de registrar la comida
     };
 

@@ -64,7 +64,6 @@ export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
                 }
             }).then((responseImage) => {
                 if (responseImage.status == 201) {
-                    console.log('Response Image: ', responseImage.data);
                     business.image = responseImage.data[0].id
                 } else {
                     console.error(responseImage);
@@ -76,7 +75,6 @@ export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
             { data: business }, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } }
         ).then((responseBusiness) => {
             if (responseBusiness.status == 201) {
-                console.log(responseBusiness.data)
                 axios.put('http://localhost:1337/api/users/' + userID, {
                     role: 16,
                     business: responseBusiness.data.data.id

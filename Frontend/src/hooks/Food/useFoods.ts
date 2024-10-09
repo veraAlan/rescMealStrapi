@@ -42,7 +42,7 @@ const useFoods = () => {
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
-                setError('Please register or log in.');
+                setError('Por favor inicie sesion o registrese.');
             }
         };
 
