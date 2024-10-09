@@ -1,9 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Business } from '../../types/Business';
 import axios from 'axios';
 import { redirect } from 'next/navigation';
+import { AuthContext } from '@/context/AuthContext';
 
 export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
+    const authContext = useContext(AuthContext)
+
+    if (!authContext) {
+        return null;
+    }
+
+    const { isLoggedIn, login } = authContext
     const [status, setStatus] = useState(0)
     const [formData, setFormData] = useState<Business>({
         username: '',
@@ -48,7 +56,7 @@ export const useRegisterBusiness = (onSubmit: (business: Business) => void) => {
             email: formData.email,
             password: formData.password,
         }).then((response) => {
-            localStorage.setItem('token', response.data.jwt)
+            login(response.data.jwt)
             userID = response.data.user.id
         }).catch(error => console.error('Error al registrar el usuario: ', error.message));
 

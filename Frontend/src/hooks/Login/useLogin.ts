@@ -33,6 +33,7 @@ export const useLogin = (onSubmit: (client: UserLogin) => void) => {
 
          login(response.data.jwt)
          setStatus(response.status)
+         onSubmit(response.data)
       }).catch(error => setError(true))
    };
 
