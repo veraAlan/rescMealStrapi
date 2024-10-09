@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
 
 export interface FoodData {
     Name: string;
@@ -14,6 +15,7 @@ export interface FoodData {
 }
 
 const useRegisterFood = (onSubmit: (foodData: FoodData) => void) => {
+    const [status, setStatus] = useState(0)
     const [formData, setFormData] = useState<FoodData>({
         Name: '',
         Description: '',
@@ -25,8 +27,6 @@ const useRegisterFood = (onSubmit: (foodData: FoodData) => void) => {
         Image: null,
         business: 0,
     });
-    const [business, setBusiness] = useState<number>();
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -42,18 +42,6 @@ const useRegisterFood = (onSubmit: (foodData: FoodData) => void) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const response = await axios.get('http://localhost:1337/api/users/me?populate=*', {
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem('token')
-            }
-        })
-            .then(response => {
-                console.log("HERE: ", response.data.business.id)
-                setBusiness(response.data.business.id)
-            })
-            .catch(error => console.error('Error al obtener negocios:', error))
-
         const foodData: any = {};
         for (const key in formData) {
             const value = formData[key as keyof FoodData];
@@ -62,7 +50,18 @@ const useRegisterFood = (onSubmit: (foodData: FoodData) => void) => {
             }
         }
 
-        foodData['business'] = business
+        const response = await axios.get('http://localhost:1337/api/users/me?populate=*', {
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem('token')
+            }
+        })
+            .then(response => {
+                foodData['business'] = response.data.business.id
+            })
+            .catch(error => {
+                console.error('Negocio no existe:', error)
+                setStatus(204)
+            })
 
         try {
             let imageUrl = null;
@@ -80,7 +79,7 @@ const useRegisterFood = (onSubmit: (foodData: FoodData) => void) => {
                 if (imageResponse.ok && imageResult.length > 0) {
                     imageUrl = imageResult[0].id;
                 } else {
-                    console.error('Error uploading image:', imageResult);
+                    console.error('Error subiendo imagen:', imageResult);
                     return;
                 }
             }
@@ -88,37 +87,29 @@ const useRegisterFood = (onSubmit: (foodData: FoodData) => void) => {
             if (imageUrl) {
                 foodData['Image'] = imageUrl;
             }
-
-            const payload = { data: foodData };
-
-            // Works ok until here
-            // TODO create relation to logged user (business id) and food created.
-            const response = await fetch('http://localhost:1337/api/foods', {
-                method: 'POST',
+            const response = await axios.post('http://localhost:1337/api/foods', {
+                data: foodData
+            }, {
                 headers: {
-                    Authorization: "Bearer " + localStorage.getItem('token'),
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                onSubmit(result.data);
-            } else {
-                console.error(result);
-            }
+                    Authorization: "Bearer " + localStorage.getItem('token')
+                }
+            })
+                .then((response) => {
+                    if (response.status == 201) onSubmit(response.data)
+                    setStatus(response.status)
+                })
+                .catch((error) => {
+                    console.error('Error al registrar la comida:', error)
+                    return;
+                })
         } catch (error) {
             console.error('Error al registrar la comida:', error);
         }
     };
 
-
-    // TODO after ok/created status, redirect to Foods list
-    // const [status, setStatus] = useState(0)
-    // if (status == 200) {
-    //     redirect('/')
-    // }
+    if (status == 201 || status == 204) {
+        redirect('/')
+    }
 
     return { formData, handleChange, handleSubmit, handleFileChange, error };
 

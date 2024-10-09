@@ -36,9 +36,14 @@ const Header: React.FC = () => {
                                 Iniciar Sesión
                             </button>
                         </Link>
-                        <Link href="/register">
+                        <Link href="/register/client">
                             <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded">
-                                Registrarse
+                                Registrarse Como Cliente
+                            </button>
+                        </Link>
+                        <Link href="/register/business">
+                            <button className="bg-white text-blue-500 font-bold py-2 px-4 rounded">
+                                Registrarse Como Local
                             </button>
                         </Link>
                     </div>)}

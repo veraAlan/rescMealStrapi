@@ -1,6 +1,5 @@
 'use client'
 
-import { redirect } from 'next/navigation'
 import { createContext, useState, useEffect, ReactNode } from 'react'
 
 interface AuthContextType {
